@@ -1,0 +1,4 @@
+# Treat all files as binary to avoid unpredictable line endings
+# with git in different environments
+
+* -text
