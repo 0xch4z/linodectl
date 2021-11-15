@@ -37,7 +37,7 @@ func (Meta) RequiredColumns() []string {
 }
 
 func (Meta) DefaultColumns() []string {
-	return []string{"image", "type", "region", "status"}
+	return []string{"region", "type", "image", "status", "ipv4"}
 }
 
 func (l List) Items() []resource.Resource {
@@ -94,6 +94,16 @@ func (r Resource) Properties() resource.PropertyMap {
 		"tags": {
 			Getter: func(c context.Context) (interface{}, error) {
 				return r.Tags, nil
+			},
+		},
+		"ipv4": {
+			Getter: func(c context.Context) (interface{}, error) {
+				return r.IPv4, nil
+			},
+		},
+		"ipv6": {
+			Getter: func(c context.Context) (interface{}, error) {
+				return r.IPv6, nil
 			},
 		},
 	}
