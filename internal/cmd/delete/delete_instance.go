@@ -88,7 +88,7 @@ func (o *DeleteInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error
 		if err := client.DeleteInstance(context.Background(), instance.ID); err != nil {
 			return err
 		}
-		fmt.Printf("Instance %q (%d) deleted...\n", instance.Label, instance.ID)
+		fmt.Fprintf(o.Out, "Instance %q (%d) deleted...\n", instance.Label, instance.ID)
 	}
 	return nil
 }
