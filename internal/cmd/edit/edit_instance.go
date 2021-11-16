@@ -1,9 +1,17 @@
 package edit
 
 import (
+	"bytes"
+	"context"
+	"fmt"
+
+	"github.com/Charliekenney23/linodectl/internal/cli/editor"
 	"github.com/Charliekenney23/linodectl/internal/cli/genericoptions"
 	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
+	"github.com/Charliekenney23/linodectl/internal/resource/instance"
+	"github.com/linode/linodego"
 	"github.com/spf13/cobra"
+	"gopkg.in/yaml.v2"
 )
 
 type EditInstanceOptions struct {
@@ -76,34 +84,57 @@ func (o *EditInstanceOptions) Complete(f cmdutil.Factory, ioStreams cmdutil.IOSt
 }
 
 func (o *EditInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error {
+	client, err := f.Client(o.ProfileName())
+	if err != nil {
+		return err
+	}
+
+	filter := linodego.Filter{}
+	filter.AddField(linodego.Eq, "label", o.Label)
+	filterBytes, err := filter.MarshalJSON()
+	if err != nil {
+		return err
+	}
+
+	ctx := context.Background()
+	instances, err := client.ListInstances(ctx, &linodego.ListOptions{
+		Filter: string(filterBytes),
+	})
+	if err != nil {
+		return err
+	}
+
+	if len(instances) == 0 {
+		return fmt.Errorf("instance %q does not exist", o.Label)
+	}
+
+	i := instances[0]
+	spec := instance.SpecFromObject(&i)
+	instanceBytes, err := yaml.Marshal(spec)
+	if err != nil {
+		return err
+	}
+
+	editor := editor.NewDefaultEditor()
+	specBytes, _, err := editor.EditReader("instance", o.Label+".yaml", o.IOStreams, bytes.NewBuffer(instanceBytes))
+	if err != nil {
+		panic(err)
+	}
+
+	var updatedSpec instance.Spec
+	if err := yaml.Unmarshal(specBytes, &updatedSpec); err != nil {
+		return err
+	}
+
+	updateOpts, err := spec.Diff(&updatedSpec)
+	if err != nil {
+		return err
+	}
+
+	if _, err = client.UpdateInstance(ctx, i.ID, *updateOpts); err != nil {
+		return err
+	}
+
+	fmt.Fprintf(o.Out, "instance %q updated", i.Label)
 	return nil
-	// filter := o.Filter(o.Label)
-
-	// filterBytes, err := filter.MarshalJSON()
-	// if err != nil {
-	// 	return err
-	// }
-
-	// client, err := f.Client(o.ProfileName())
-	// if err != nil {
-	// 	return err
-	// }
-
-	// instances, err := client.ListInstances(context.Background(), &linodego.ListOptions{
-	// 	PageOptions: o.PageOptions(),
-	// 	PageSize:    o.PageOptions().Results,
-	// 	Filter:      string(filterBytes),
-	// })
-	// if err != nil {
-	// 	return err
-	// }
-
-	// r := make([]resource.Resource, len(instances))
-	// for i, instance := range instances {
-	// 	func(instance linodego.Instance) {
-	// 		r[i] = resource.New(&instance)
-	// 	}(instance)
-	// }
-	// p := printer.New(o.Out)
-	// return p.PrintResources(context.Background(), r, nil)
 }

@@ -16,6 +16,7 @@ const (
 
 type Client interface {
 	GetInstance(context.Context, int) (*linodego.Instance, error)
+	UpdateInstance(context.Context, int, linodego.InstanceUpdateOptions) (*linodego.Instance, error)
 	CreateInstance(context.Context, linodego.InstanceCreateOptions) (*linodego.Instance, error)
 	DeleteInstance(context.Context, int) error
 	ListInstances(context.Context, *linodego.ListOptions) ([]linodego.Instance, error)

@@ -108,3 +108,18 @@ func (mr *MockClientMockRecorder) ListInstances(arg0, arg1 interface{}) *gomock.
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListInstances", reflect.TypeOf((*MockClient)(nil).ListInstances), arg0, arg1)
 }
+
+// UpdateInstance mocks base method.
+func (m *MockClient) UpdateInstance(arg0 context.Context, arg1 int, arg2 linodego.InstanceUpdateOptions) (*linodego.Instance, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateInstance", arg0, arg1, arg2)
+	ret0, _ := ret[0].(*linodego.Instance)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateInstance indicates an expected call of UpdateInstance.
+func (mr *MockClientMockRecorder) UpdateInstance(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateInstance", reflect.TypeOf((*MockClient)(nil).UpdateInstance), arg0, arg1, arg2)
+}
