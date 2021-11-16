@@ -69,14 +69,21 @@ func (o *GetInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error {
 	if err != nil {
 		return err
 	}
+	ctx := context.Background()
 
-	instances, err := client.ListInstances(context.Background(), &linodego.ListOptions{
+	instances, err := client.ListInstances(ctx, &linodego.ListOptions{
 		PageOptions: o.PageOptions(),
 		PageSize:    o.PageOptions().Results,
 		Filter:      string(filterBytes),
 	})
 	if err != nil {
 		return err
+	}
+
+	if o.LKECluster() != 0 {
+		if instances, err = instance.FilterLKECluster(ctx, client, o.LKECluster(), instances); err != nil {
+			return err
+		}
 	}
 
 	resourceList := instance.NewList(instances)

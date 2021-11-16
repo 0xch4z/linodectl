@@ -21,6 +21,9 @@ type Client interface {
 	DeleteInstance(context.Context, int) error
 	ListInstances(context.Context, *linodego.ListOptions) ([]linodego.Instance, error)
 
+	ListLKEClusters(context.Context, *linodego.ListOptions) ([]linodego.LKECluster, error)
+	ListLKEClusterPools(context.Context, int, *linodego.ListOptions) ([]linodego.LKEClusterPool, error)
+
 	GetProfile(context.Context) (*linodego.Profile, error)
 }
 

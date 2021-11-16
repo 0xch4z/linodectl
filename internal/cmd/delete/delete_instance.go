@@ -61,7 +61,7 @@ func (o *DeleteInstanceOptions) Complete(f cmdutil.Factory, ioStreams cmdutil.IO
 func (o *DeleteInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error {
 	filter := o.Filter(o.Label)
 
-	if len(filter.Children) == 0 {
+	if len(filter.Children) == 0 && o.LKECluster() == 0 {
 		// we can't just delete every instance
 		return errors.New("no filters provided")
 	}
@@ -75,6 +75,7 @@ func (o *DeleteInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error
 	if err != nil {
 		return err
 	}
+	ctx := context.Background()
 
 	instances, err := client.ListInstances(context.Background(), &linodego.ListOptions{
 		PageOptions: o.PageOptions(),
@@ -82,6 +83,12 @@ func (o *DeleteInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error
 	})
 	if err != nil {
 		return err
+	}
+
+	if o.LKECluster() != 0 {
+		if instances, err = instance.FilterLKECluster(ctx, client, o.LKECluster(), instances); err != nil {
+			return err
+		}
 	}
 
 	for _, instance := range instances {

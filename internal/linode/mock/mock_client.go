@@ -109,6 +109,36 @@ func (mr *MockClientMockRecorder) ListInstances(arg0, arg1 interface{}) *gomock.
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListInstances", reflect.TypeOf((*MockClient)(nil).ListInstances), arg0, arg1)
 }
 
+// ListLKEClusterPools mocks base method.
+func (m *MockClient) ListLKEClusterPools(arg0 context.Context, arg1 int, arg2 *linodego.ListOptions) ([]linodego.LKEClusterPool, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListLKEClusterPools", arg0, arg1, arg2)
+	ret0, _ := ret[0].([]linodego.LKEClusterPool)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListLKEClusterPools indicates an expected call of ListLKEClusterPools.
+func (mr *MockClientMockRecorder) ListLKEClusterPools(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListLKEClusterPools", reflect.TypeOf((*MockClient)(nil).ListLKEClusterPools), arg0, arg1, arg2)
+}
+
+// ListLKEClusters mocks base method.
+func (m *MockClient) ListLKEClusters(arg0 context.Context, arg1 *linodego.ListOptions) ([]linodego.LKECluster, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListLKEClusters", arg0, arg1)
+	ret0, _ := ret[0].([]linodego.LKECluster)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListLKEClusters indicates an expected call of ListLKEClusters.
+func (mr *MockClientMockRecorder) ListLKEClusters(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListLKEClusters", reflect.TypeOf((*MockClient)(nil).ListLKEClusters), arg0, arg1)
+}
+
 // UpdateInstance mocks base method.
 func (m *MockClient) UpdateInstance(arg0 context.Context, arg1 int, arg2 linodego.InstanceUpdateOptions) (*linodego.Instance, error) {
 	m.ctrl.T.Helper()
