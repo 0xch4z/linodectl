@@ -17,7 +17,6 @@ const (
 )
 
 func NameFromCommandArgs(args []string) (string, error) {
-	fmt.Println(args)
 	if len(args) != 1 {
 		return "", fmt.Errorf("exactly one NAME is required, got %d", len(args))
 	}

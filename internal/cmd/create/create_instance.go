@@ -61,6 +61,7 @@ func NewCmdCreateInstance(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra
 	}
 
 	cmd.Flags().StringSliceVar(&o.AuthorizedUsers, "authorized-users", o.AuthorizedUsers, "Users to authorize for this instance.")
+	cmd.Flags().BoolVar(&o.AuthorizeMe, "authorize-me", false, "If true, this user account's keys will be authorized.")
 	cmd.Flags().BoolVar(&o.BackupsEnabled, "enable-backups", false, "If true, backups will be enabled.")
 	cmd.Flags().StringVarP(&o.Group, "group", "g", "", "The group to attribute this instance to.")
 	cmd.Flags().StringVarP(&o.Image, "image", "i", "", "The image to provision this instance with.")
@@ -103,11 +104,7 @@ func (o *CreateInstanceOptions) Complete(f cmdutil.Factory, ioStreams cmdutil.IO
 
 	if profile, ok := f.Config().CurrentProfile(); ok {
 		o.Region = strutil.Fallback(o.Region, profile.Region)
-		fmt.Println("in profile check", o.Region)
-	} else {
-		fmt.Println("profile is not ok")
 	}
-
 	return nil
 }
 
@@ -130,8 +127,17 @@ func (o *CreateInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error
 	if err != nil {
 		return err
 	}
+	ctx := context.Background()
 
-	linodeInstance, err := client.CreateInstance(context.Background(), options)
+	if o.AuthorizeMe {
+		profile, err := client.GetProfile(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to get profile: %w", err)
+		}
+		options.AuthorizedUsers = append(options.AuthorizedUsers, profile.Username)
+	}
+
+	linodeInstance, err := client.CreateInstance(ctx, options)
 	if err != nil {
 		return fmt.Errorf("failed to create instance: %w", err)
 	}
