@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/golang/mock v1.6.0
 	github.com/jedib0t/go-pretty/v6 v6.2.4
-	github.com/linode/linodego v1.1.0
+	github.com/linode/linodego v1.2.1
 	github.com/spf13/cobra v1.2.1
 	github.com/stretchr/testify v1.7.0
 	gopkg.in/yaml.v2 v2.4.0
