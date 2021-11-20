@@ -6,6 +6,7 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/jedib0t/go-pretty/v6 v6.2.4
 	github.com/linode/linodego v1.2.1
+	github.com/moby/term v0.0.0-20210619224110-3f7ff695adc6
 	github.com/spf13/cobra v1.2.1
 	github.com/stretchr/testify v1.7.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -17,10 +18,7 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-resty/resty/v2 v2.1.1-0.20191201195748-d7b97669fe48 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
-	github.com/mattn/go-isatty v0.0.10 // indirect
 	github.com/mattn/go-runewidth v0.0.9 // indirect
-	github.com/mattn/go-tty v0.0.3 // indirect
-	github.com/moby/term v0.0.0-20210619224110-3f7ff695adc6 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/russross/blackfriday/v2 v2.0.1 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
