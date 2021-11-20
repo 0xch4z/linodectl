@@ -18,5 +18,6 @@ jobs:
     - name: go fmt check
       run: sh hack/gofmt_check.sh
     - name: go mod tidy check
-      run: gsh hack/gomodtidy_check.sh
-    - name:
+      run: sh hack/gomodtidy_check.sh
+    - name: build
+      run: make build
