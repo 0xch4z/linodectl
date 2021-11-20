@@ -14,5 +14,6 @@ func NewCmdConfig(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.Command
 	cmds.AddCommand(NewCmdConfigSetProfile(f, ioStreams))
 	cmds.AddCommand(NewCmdConfigListProfiles(f, ioStreams))
 	cmds.AddCommand(NewCmdConfigGetProfile(f, ioStreams))
+	cmds.AddCommand(NewCmdConfigEdit(f, ioStreams))
 	return cmds
 }
