@@ -50,6 +50,21 @@ func (mr *MockClientMockRecorder) CreateInstance(arg0, arg1 interface{}) *gomock
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateInstance", reflect.TypeOf((*MockClient)(nil).CreateInstance), arg0, arg1)
 }
 
+// CreateLKECluster mocks base method.
+func (m *MockClient) CreateLKECluster(arg0 context.Context, arg1 linodego.LKEClusterCreateOptions) (*linodego.LKECluster, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateLKECluster", arg0, arg1)
+	ret0, _ := ret[0].(*linodego.LKECluster)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateLKECluster indicates an expected call of CreateLKECluster.
+func (mr *MockClientMockRecorder) CreateLKECluster(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateLKECluster", reflect.TypeOf((*MockClient)(nil).CreateLKECluster), arg0, arg1)
+}
+
 // DeleteInstance mocks base method.
 func (m *MockClient) DeleteInstance(arg0 context.Context, arg1 int) error {
 	m.ctrl.T.Helper()

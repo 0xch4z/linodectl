@@ -51,6 +51,7 @@ func NewCmdCreateInstance(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra
 
 	cmd := &cobra.Command{
 		Use:     "instance NAME [args...]",
+		Short:   "Create a Linode Instance",
 		Aliases: []string{"linode"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := o.Complete(f, ioStreams, args); err != nil {
