@@ -47,7 +47,7 @@ func (provider) Save(config *Config) error {
 	}
 
 	// open the file for writing, create it if it doesn't exist
-	file, err := os.OpenFile(configPath, os.O_WRONLY|os.O_CREATE, os.ModePerm)
+	file, err := os.OpenFile(configPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, os.ModePerm)
 	if err != nil {
 		return err
 	}
