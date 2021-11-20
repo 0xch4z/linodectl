@@ -1,4 +1,5 @@
 NAME := linodectl
+BIN_DIR ?= ./bin
 
 install:
 	cd cmd/linodectl && go install .
@@ -19,4 +20,5 @@ docs: clean-docs
 	go run cmd/docgen/main.go
 
 build:
-	go build -o $(linodectl) cmd/linodectl/main.go
+	mkdir -p $(BIN_DIR)
+	go build -o $(BIN_DIR)/$(NAME) cmd/linodectl/main.go
