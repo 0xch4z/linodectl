@@ -1,4 +1,4 @@
-name: smoke test
+name: test
 on:
   push:
     branches: [ master ]
@@ -21,3 +21,6 @@ jobs:
       run: sh hack/gomodtidy_check.sh
     - name: build
       run: make build
+    - name: test
+      run: make test
+      
