@@ -15,6 +15,23 @@ import (
 	"github.com/linode/linodego"
 )
 
+const (
+	instanceExamples = `  # Create a Nanode running ubuntu
+  linodectl create instance mylinode --region us-east --image linode/ubuntu20.04 --type g6-standard-1
+
+  # Create a Linode with swap
+  linodectl create instance withswap --region eu-west --image linode/debian11 --swap 256
+
+  # Create a Linode with a private IP
+  linodectl create instance linode123 --region ap-west --image linode/debian11 --private-ip
+
+  # Create a Linode and don't boot it
+  linodectl create instance offlinode --region eu-central --image linode/debian11 --powered-off
+
+  # Create a Linode with a preset
+  linodectl create instance newlinode --preset my-preset`
+)
+
 type CreateInstanceOptions struct {
 	Label string
 
@@ -52,6 +69,7 @@ func NewCmdCreateInstance(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra
 	cmd := &cobra.Command{
 		Use:     "instance NAME [args...]",
 		Short:   "Create a Linode Instance",
+		Example: instanceExamples,
 		Aliases: []string{"linode"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := o.Complete(f, ioStreams, args); err != nil {
@@ -71,7 +89,7 @@ func NewCmdCreateInstance(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra
 	cmd.Flags().StringVar(&o.Preset, "preset", "", "The preset to use for this instance.")
 	cmd.Flags().StringVar(&o.Region, "region", "", "The region to deploy this instance in.")
 	cmd.Flags().StringVar(&o.RootPass, "root-pass", "", "The root pass to set on this instance.")
-	cmd.Flags().IntVarP(&o.SwapSize, "swap-size", "s", 0, "The swap size for the instance.")
+	cmd.Flags().IntVarP(&o.SwapSize, "swap", "s", 0, "The swap size for the instance.")
 	cmd.Flags().StringSliceVar(&o.Tags, "tags", o.Tags, "The tags to add to this instance.")
 	cmd.Flags().StringVar(&o.Type, "type", "", "The type of this instance.")
 
