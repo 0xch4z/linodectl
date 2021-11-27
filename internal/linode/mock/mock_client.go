@@ -79,6 +79,20 @@ func (mr *MockClientMockRecorder) DeleteInstance(arg0, arg1 interface{}) *gomock
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteInstance", reflect.TypeOf((*MockClient)(nil).DeleteInstance), arg0, arg1)
 }
 
+// DeleteStackscript mocks base method.
+func (m *MockClient) DeleteStackscript(arg0 context.Context, arg1 int) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteStackscript", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteStackscript indicates an expected call of DeleteStackscript.
+func (mr *MockClientMockRecorder) DeleteStackscript(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteStackscript", reflect.TypeOf((*MockClient)(nil).DeleteStackscript), arg0, arg1)
+}
+
 // GetInstance mocks base method.
 func (m *MockClient) GetInstance(arg0 context.Context, arg1 int) (*linodego.Instance, error) {
 	m.ctrl.T.Helper()
@@ -92,6 +106,21 @@ func (m *MockClient) GetInstance(arg0 context.Context, arg1 int) (*linodego.Inst
 func (mr *MockClientMockRecorder) GetInstance(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInstance", reflect.TypeOf((*MockClient)(nil).GetInstance), arg0, arg1)
+}
+
+// GetLKEClusterKubeconfig mocks base method.
+func (m *MockClient) GetLKEClusterKubeconfig(arg0 context.Context, arg1 int) (*linodego.LKEClusterKubeconfig, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetLKEClusterKubeconfig", arg0, arg1)
+	ret0, _ := ret[0].(*linodego.LKEClusterKubeconfig)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetLKEClusterKubeconfig indicates an expected call of GetLKEClusterKubeconfig.
+func (mr *MockClientMockRecorder) GetLKEClusterKubeconfig(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLKEClusterKubeconfig", reflect.TypeOf((*MockClient)(nil).GetLKEClusterKubeconfig), arg0, arg1)
 }
 
 // GetProfile mocks base method.
@@ -152,6 +181,21 @@ func (m *MockClient) ListLKEClusters(arg0 context.Context, arg1 *linodego.ListOp
 func (mr *MockClientMockRecorder) ListLKEClusters(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListLKEClusters", reflect.TypeOf((*MockClient)(nil).ListLKEClusters), arg0, arg1)
+}
+
+// ListStackscripts mocks base method.
+func (m *MockClient) ListStackscripts(arg0 context.Context, arg1 *linodego.ListOptions) ([]linodego.Stackscript, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListStackscripts", arg0, arg1)
+	ret0, _ := ret[0].([]linodego.Stackscript)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListStackscripts indicates an expected call of ListStackscripts.
+func (mr *MockClientMockRecorder) ListStackscripts(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListStackscripts", reflect.TypeOf((*MockClient)(nil).ListStackscripts), arg0, arg1)
 }
 
 // UpdateInstance mocks base method.

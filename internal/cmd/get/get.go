@@ -24,5 +24,7 @@ func NewCmdGet(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.Command {
 	}
 
 	cmds.AddCommand(NewCmdGetInstance(f, ioStreams))
+	cmds.AddCommand(NewCmdGetStackScript(f, ioStreams))
+	cmds.AddCommand(NewCmdGetKubeconfig(f, ioStreams))
 	return cmds
 }

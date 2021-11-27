@@ -15,5 +15,6 @@ func NewCmdDelete(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.Command
 	}
 
 	cmds.AddCommand(NewCmdDeleteInstance(f, ioStreams))
+	cmds.AddCommand(NewCmdDeleteStackScript(f, ioStreams))
 	return cmds
 }
