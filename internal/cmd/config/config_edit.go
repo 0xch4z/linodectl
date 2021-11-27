@@ -11,7 +11,8 @@ import (
 
 func NewCmdConfigEdit(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.Command {
 	return &cobra.Command{
-		Use: "edit",
+		Use:   "edit",
+		Short: "Edit config",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			conf := f.Config()
 			configBytes, err := yaml.Marshal(conf)
