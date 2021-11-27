@@ -16,7 +16,8 @@ func wrapProfileValue(s string) string {
 
 func NewCmdConfigGetProfile(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.Command {
 	return &cobra.Command{
-		Use: "get-profile",
+		Use:   "get-profile",
+		Short: "Get current profile",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			config := f.Config()
 

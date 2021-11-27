@@ -11,7 +11,8 @@ import (
 
 func NewCmdConfigListProfiles(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.Command {
 	return &cobra.Command{
-		Use: "list-profiles",
+		Use:   "list-profiles",
+		Short: "List all profiles",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			config := f.Config()
 			currentProfile := strutil.Fallback(config.Profile, "default")

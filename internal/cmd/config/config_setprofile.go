@@ -7,12 +7,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const setProfileExamples = `  # Set profile to "my-profile"
+  linodectl config set-profile my-profile`
+
 var profileNotExistErr = errors.New("profile does not exist")
 
 func NewCmdConfigSetProfile(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:  "set-profile NAME",
-		Args: cobra.ExactArgs(1),
+		Use:     "set-profile NAME",
+		Short:   "Set default profile",
+		Example: setProfileExamples,
+		Args:    cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			config := f.Config()
 
