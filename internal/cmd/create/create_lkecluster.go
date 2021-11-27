@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	lkeClusterHelp = `  # Create a 1.21 Cluster with a 5 node pool of type g6-standard-2
+	lkeClusterExamples = `  # Create a 1.21 Cluster with a 5 node pool of type g6-standard-2
   linodectl create lkecluster -v1.21 --region us-east --pool g6-standard-2:5
 
   # Create a Cluster on the latest support version of Kubernetes
@@ -60,7 +60,7 @@ func NewCmdCreateLKECluister(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *co
 		Use:     "lkecluster NAME [args...]",
 		Short:   "Create an LKE Cluster",
 		Aliases: []string{"cluster"},
-		Example: lkeClusterHelp,
+		Example: lkeClusterExamples,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := o.Complete(f, ioStreams, args); err != nil {
 				return err
