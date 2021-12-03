@@ -58,7 +58,7 @@ func (o *GetKubeconfigOptions) Complete(f cmdutil.Factory, ioStreams cmdutil.IOS
 }
 
 func (o *GetKubeconfigOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error {
-	if len(o.refs) == 1 {
+	if len(o.refs) != 1 {
 		return fmt.Errorf("need a reference to exactly one LKE Cluster")
 	}
 
