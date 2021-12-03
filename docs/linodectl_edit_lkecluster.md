@@ -1,15 +1,15 @@
-## linodectl edit instance
+## linodectl edit lkecluster
 
 
 
 ```
-linodectl edit instance NAME [args...] [flags]
+linodectl edit lkecluster NAME [args...] [flags]
 ```
 
 ### Options
 
 ```
-  -h, --help             help for instance
+  -h, --help             help for lkecluster
   -p, --profile string   The profile to use for communicating with the Linode API
 ```
 

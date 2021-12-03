@@ -15,6 +15,7 @@ linodectl get [resource] [flags]
 ### SEE ALSO
 
 * [linodectl](linodectl.md)	 - linodectl manages Linode resources
+* [linodectl get bucket](linodectl_get_bucket.md)	 - 
 * [linodectl get instance](linodectl_get_instance.md)	 - 
 * [linodectl get kubeconfig](linodectl_get_kubeconfig.md)	 - 
 * [linodectl get lkecluster](linodectl_get_lkecluster.md)	 - 
