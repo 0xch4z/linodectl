@@ -8,13 +8,13 @@ import (
 	"github.com/Charliekenney23/linodectl/internal/cli/genericoptions"
 	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
 	"github.com/Charliekenney23/linodectl/internal/resource/instance"
+	"github.com/Charliekenney23/linodectl/internal/resource/resourceref"
 	"github.com/linode/linodego"
 	"github.com/spf13/cobra"
 )
 
 type DeleteInstanceOptions struct {
-	// Label (optional) is the name of an instance to delete
-	Label string
+	refs resourceref.List
 
 	genericoptions.PaginationFlags
 	genericoptions.ProfileFlags
@@ -51,17 +51,16 @@ func NewCmdDeleteInstance(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra
 }
 
 func (o *DeleteInstanceOptions) Complete(f cmdutil.Factory, ioStreams cmdutil.IOStreams, args []string) (err error) {
-	if len(args) == 1 {
-		o.Label = args[0]
+	if o.refs, err = resourceref.ListFromArgs(args); err != nil {
+		return err
 	}
-
 	return nil
 }
 
 func (o *DeleteInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error {
-	filter := o.Filter(o.Label)
+	filter := o.Filter(o.refs.Label())
 
-	if len(filter.Children) == 0 && o.LKECluster() == 0 {
+	if len(o.refs) == 0 && len(filter.Children) == 0 && o.LKECluster() == 0 {
 		// we can't just delete every instance
 		return errors.New("no filters provided")
 	}
@@ -89,6 +88,10 @@ func (o *DeleteInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error
 		if instances, err = instance.FilterLKECluster(ctx, client, o.LKECluster(), instances); err != nil {
 			return err
 		}
+	}
+
+	if len(o.refs) > 0 {
+		instances = instance.FilterByRefs(instances, o.refs)
 	}
 
 	for _, instance := range instances {

@@ -83,22 +83,8 @@ func (o *DeleteStackScriptOptions) Run(f cmdutil.Factory, cmd *cobra.Command) er
 		return err
 	}
 
-	labels, ids := o.refs.Identifiers()
-	toDelete := make(map[resourceref.Meta]struct{}, len(o.refs))
-	for _, ss := range stackScripts {
-		meta := resourceref.Meta{ID: ss.ID, Label: ss.Label}
-		if _, ok := labels[ss.Label]; ok {
-			toDelete[meta] = struct{}{}
-			delete(labels, ss.Label)
-		}
-
-		if _, ok := ids[ss.ID]; ok {
-			toDelete[meta] = struct{}{}
-			delete(ids, ss.ID)
-		}
-	}
-
-	for ss := range toDelete {
+	toDelete := stackscript.FilterByRefs(stackScripts, o.refs)
+	for _, ss := range toDelete {
 		if err := client.DeleteStackscript(context.Background(), ss.ID); err != nil {
 			return err
 		}

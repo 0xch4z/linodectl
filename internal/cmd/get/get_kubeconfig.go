@@ -10,6 +10,7 @@ import (
 
 	"github.com/Charliekenney23/linodectl/internal/cli/genericoptions"
 	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
+	"github.com/Charliekenney23/linodectl/internal/resource/lkecluster"
 	"github.com/Charliekenney23/linodectl/internal/resource/resourceref"
 	"github.com/linode/linodego"
 	"github.com/spf13/cobra"
@@ -57,8 +58,8 @@ func (o *GetKubeconfigOptions) Complete(f cmdutil.Factory, ioStreams cmdutil.IOS
 }
 
 func (o *GetKubeconfigOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error {
-	if len(o.refs) == 0 {
-		return fmt.Errorf("need args")
+	if len(o.refs) == 1 {
+		return fmt.Errorf("need a reference to exactly one LKE Cluster")
 	}
 
 	client, err := f.Client(o.ProfileName())
@@ -68,44 +69,21 @@ func (o *GetKubeconfigOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error 
 
 	ctx := context.Background()
 
-	id := o.refs.ID()
-	if id == 0 {
-		// We need to get the ID from the cluster
-
-		// For some odd reason, LKE Clusters are not filterable by label.
-		// filter := linodego.Filter{}
-		// filter.AddField(linodego.Eq, "label", o.refs.Label())
-		// filterBytes, err := filter.MarshalJSON()
-		// if err != nil {
-		// 	return err
-		// }
-
-		clusters, err := client.ListLKEClusters(ctx, &linodego.ListOptions{
-			// Filter: string(filterBytes),
-		})
+	clusterID := o.refs.ID()
+	if label := o.refs.Label(); label != "" {
+		clusters, err := client.ListLKEClusters(ctx, &linodego.ListOptions{})
 		if err != nil {
 			return err
 		}
 
-		// if len(clusters) != 0 {
-		// 	return fmt.Errorf("could not find lkecluster %q", o.refs.Label())
-		// }
-
-		// id = clusters[0].ID
-
-		for _, cluster := range clusters {
-			if cluster.Label == o.refs.Label() {
-				id = cluster.ID
-				break
-			}
+		clusters = lkecluster.FilterByRefs(clusters, o.refs)
+		if len(clusters) != 1 {
+			return fmt.Errorf("could not find LKE Cluster %q", label)
 		}
-
-		if id == 0 {
-			return fmt.Errorf("could not find lkecluster %q", o.refs.Label())
-		}
+		clusterID = clusters[0].ID
 	}
 
-	kubeconfig, err := client.GetLKEClusterKubeconfig(ctx, id)
+	kubeconfig, err := client.GetLKEClusterKubeconfig(ctx, clusterID)
 	if err != nil {
 		return err
 	}

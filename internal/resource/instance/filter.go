@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/Charliekenney23/linodectl/internal/linode"
+	"github.com/Charliekenney23/linodectl/internal/resource/resourceref"
 	"github.com/linode/linodego"
 	"github.com/spf13/cobra"
 )
@@ -78,4 +79,20 @@ func FilterLKECluster(ctx context.Context, client linode.Client, id int, instanc
 		}
 	}
 	return clusterInstances, nil
+}
+
+// FilterByRefs filters for the referenced Linode Instances.
+func FilterByRefs(instances []linodego.Instance, refs resourceref.List) (r []linodego.Instance) {
+	labels, ids := refs.Identifiers()
+	for _, instance := range instances {
+		if _, ok := ids[instance.ID]; ok {
+			r = append(r, instance)
+			continue
+		}
+		if _, ok := labels[instance.Label]; ok {
+			r = append(r, instance)
+			continue
+		}
+	}
+	return r
 }

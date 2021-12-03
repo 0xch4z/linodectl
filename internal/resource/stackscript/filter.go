@@ -1,6 +1,7 @@
 package stackscript
 
 import (
+	"github.com/Charliekenney23/linodectl/internal/resource/resourceref"
 	"github.com/linode/linodego"
 	"github.com/spf13/cobra"
 )
@@ -30,4 +31,20 @@ func (f *FilterFlags) Filter(label string) *linodego.Filter {
 		filter.AddField(linodego.Eq, "mine", true)
 	}
 	return filter
+}
+
+// FilterByRefs filters for the referenced Linode Stackscripts.
+func FilterByRefs(stackscripts []linodego.Stackscript, refs resourceref.List) (r []linodego.Stackscript) {
+	labels, ids := refs.Identifiers()
+	for _, ss := range stackscripts {
+		if _, ok := ids[ss.ID]; ok {
+			r = append(r, ss)
+			continue
+		}
+		if _, ok := labels[ss.Label]; ok {
+			r = append(r, ss)
+			continue
+		}
+	}
+	return r
 }

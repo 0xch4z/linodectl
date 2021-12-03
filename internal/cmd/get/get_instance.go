@@ -7,13 +7,13 @@ import (
 	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
 	"github.com/Charliekenney23/linodectl/internal/printer"
 	"github.com/Charliekenney23/linodectl/internal/resource/instance"
+	"github.com/Charliekenney23/linodectl/internal/resource/resourceref"
 	"github.com/linode/linodego"
 	"github.com/spf13/cobra"
 )
 
 type GetInstanceOptions struct {
-	// Label (optional) is the name of an instance to fetch
-	Label string
+	refs resourceref.List
 
 	genericoptions.PaginationFlags
 	genericoptions.ProfileFlags
@@ -50,15 +50,14 @@ func NewCmdGetInstance(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.Co
 }
 
 func (o *GetInstanceOptions) Complete(f cmdutil.Factory, ioStreams cmdutil.IOStreams, args []string) (err error) {
-	if len(args) == 1 {
-		o.Label = args[0]
+	if o.refs, err = resourceref.ListFromArgs(args); err != nil {
+		return err
 	}
-
 	return nil
 }
 
 func (o *GetInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error {
-	filter := o.Filter(o.Label)
+	filter := o.Filter(o.refs.Label())
 
 	filterBytes, err := filter.MarshalJSON()
 	if err != nil {
@@ -84,6 +83,10 @@ func (o *GetInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error {
 		if instances, err = instance.FilterLKECluster(ctx, client, o.LKECluster(), instances); err != nil {
 			return err
 		}
+	}
+
+	if len(o.refs) > 0 {
+		instances = instance.FilterByRefs(instances, o.refs)
 	}
 
 	resourceList := instance.NewList(instances)
