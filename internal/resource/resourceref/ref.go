@@ -82,10 +82,12 @@ func newRef(v interface{}) (*Ref, error) {
 	return &Ref{val: v}, nil
 }
 
+// ListFromArgs parses a List of resource references from a list of arguments. If something other
+// than a resource label or numeric ID is specified, an error will be thrown.
 func ListFromArgs(args []string) (List, error) {
 	refs := make(List, len(args))
 	for i, arg := range args {
-		// If successfully parse as an int, this is an id ref.
+		// If successful, we have a valid integer that is maybe a valid numeric ID.
 		n, err := strconv.Atoi(arg)
 		if err == nil {
 			ref, err := newRef(n)
@@ -96,7 +98,7 @@ func ListFromArgs(args []string) (List, error) {
 			continue
 		}
 
-		// This is a label ref.
+		// This has to be a resource label.
 		ref, err := newRef(arg)
 		if err != nil {
 			return nil, err
