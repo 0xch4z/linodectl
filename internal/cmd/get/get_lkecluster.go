@@ -62,8 +62,6 @@ func (o *GetLKEClusterOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error 
 	// we should pass the string o.refs.Label(), so that if a single label
 	// is specified, only that cluster is fetched.
 	// If it's included in the request right now, we'll get a 400 error.
-	o.FilterFlags.Filter("")
-
 	filter := o.Filter("")
 
 	filterBytes, err := filter.MarshalJSON()
