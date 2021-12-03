@@ -24,7 +24,8 @@ func NewCmdWhoami(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.Command
 	o := NewWhoamiOptions(ioStreams)
 
 	cmd := &cobra.Command{
-		Use: "whoami",
+		Use:   "whoami",
+		Short: "Introspect",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return o.Run(f, cmd)
 		},
