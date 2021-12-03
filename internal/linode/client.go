@@ -29,6 +29,8 @@ type Client interface {
 	ListStackscripts(context.Context, *linodego.ListOptions) ([]linodego.Stackscript, error)
 	DeleteStackscript(context.Context, int) error
 
+	ListObjectStorageBuckets(context.Context, *linodego.ListOptions) ([]linodego.ObjectStorageBucket, error)
+
 	GetProfile(context.Context) (*linodego.Profile, error)
 }
 

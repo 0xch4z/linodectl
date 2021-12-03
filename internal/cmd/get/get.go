@@ -27,5 +27,6 @@ func NewCmdGet(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.Command {
 	cmds.AddCommand(NewCmdGetStackScript(f, ioStreams))
 	cmds.AddCommand(NewCmdGetKubeconfig(f, ioStreams))
 	cmds.AddCommand(NewCmdGetLKECluster(f, ioStreams))
+	cmds.AddCommand(NewCmdGetBucket(f, ioStreams))
 	return cmds
 }
