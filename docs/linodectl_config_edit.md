@@ -1,15 +1,15 @@
-## linodectl config list-profiles
+## linodectl config edit
 
-List all profiles
+Edit config
 
 ```
-linodectl config list-profiles [flags]
+linodectl config edit [flags]
 ```
 
 ### Options
 
 ```
-  -h, --help   help for list-profiles
+  -h, --help   help for edit
 ```
 
 ### SEE ALSO
