@@ -65,6 +65,21 @@ func (mr *MockClientMockRecorder) CreateLKECluster(arg0, arg1 interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateLKECluster", reflect.TypeOf((*MockClient)(nil).CreateLKECluster), arg0, arg1)
 }
 
+// CreateObjectStorageKey mocks base method.
+func (m *MockClient) CreateObjectStorageKey(arg0 context.Context, arg1 linodego.ObjectStorageKeyCreateOptions) (*linodego.ObjectStorageKey, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateObjectStorageKey", arg0, arg1)
+	ret0, _ := ret[0].(*linodego.ObjectStorageKey)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateObjectStorageKey indicates an expected call of CreateObjectStorageKey.
+func (mr *MockClientMockRecorder) CreateObjectStorageKey(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateObjectStorageKey", reflect.TypeOf((*MockClient)(nil).CreateObjectStorageKey), arg0, arg1)
+}
+
 // DeleteInstance mocks base method.
 func (m *MockClient) DeleteInstance(arg0 context.Context, arg1 int) error {
 	m.ctrl.T.Helper()
@@ -77,6 +92,34 @@ func (m *MockClient) DeleteInstance(arg0 context.Context, arg1 int) error {
 func (mr *MockClientMockRecorder) DeleteInstance(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteInstance", reflect.TypeOf((*MockClient)(nil).DeleteInstance), arg0, arg1)
+}
+
+// DeleteObjectStorageBucket mocks base method.
+func (m *MockClient) DeleteObjectStorageBucket(arg0 context.Context, arg1, arg2 string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteObjectStorageBucket", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteObjectStorageBucket indicates an expected call of DeleteObjectStorageBucket.
+func (mr *MockClientMockRecorder) DeleteObjectStorageBucket(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteObjectStorageBucket", reflect.TypeOf((*MockClient)(nil).DeleteObjectStorageBucket), arg0, arg1, arg2)
+}
+
+// DeleteObjectStorageKey mocks base method.
+func (m *MockClient) DeleteObjectStorageKey(arg0 context.Context, arg1 int) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteObjectStorageKey", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteObjectStorageKey indicates an expected call of DeleteObjectStorageKey.
+func (mr *MockClientMockRecorder) DeleteObjectStorageKey(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteObjectStorageKey", reflect.TypeOf((*MockClient)(nil).DeleteObjectStorageKey), arg0, arg1)
 }
 
 // DeleteStackscript mocks base method.
