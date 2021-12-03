@@ -1,0 +1,111 @@
+package edit
+
+import (
+	"bytes"
+	"context"
+	"fmt"
+
+	"github.com/Charliekenney23/linodectl/internal/cli/editor"
+	"github.com/Charliekenney23/linodectl/internal/cli/genericoptions"
+	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
+	"github.com/Charliekenney23/linodectl/internal/resource/lkecluster"
+	"github.com/Charliekenney23/linodectl/internal/resource/resourceref"
+	"github.com/linode/linodego"
+	"github.com/spf13/cobra"
+	"gopkg.in/yaml.v2"
+)
+
+type EditLKEClusterOptions struct {
+	refs resourceref.List
+
+	genericoptions.ProfileFlags
+	cmdutil.IOStreams
+}
+
+func NewEditLKEClusterOptions(ioStreams cmdutil.IOStreams) *EditLKEClusterOptions {
+	return &EditLKEClusterOptions{
+		IOStreams: ioStreams,
+	}
+}
+
+func NewCmdEditLKECluster(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.Command {
+	o := NewEditLKEClusterOptions(ioStreams)
+
+	cmd := &cobra.Command{
+		Use:     "lkecluster NAME [args...]",
+		Aliases: []string{"cluster"},
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if err := o.Complete(f, ioStreams, args); err != nil {
+				return err
+			}
+			return o.Run(f, cmd)
+		},
+	}
+
+	o.ProfileFlags.AddFlags(cmd)
+	return cmd
+}
+
+func (o *EditLKEClusterOptions) Complete(f cmdutil.Factory, ioStreams cmdutil.IOStreams, args []string) (err error) {
+	if o.refs, err = resourceref.ListFromArgs(args); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *EditLKEClusterOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error {
+	if len(o.refs) == 0 {
+		return fmt.Errorf("exactly one LKE Cluster ID or label must be specified")
+	}
+
+	client, err := f.Client(o.ProfileName())
+	if err != nil {
+		return err
+	}
+
+	ctx := context.Background()
+	var filterBytes []byte
+
+	clusters, err := client.ListLKEClusters(ctx, &linodego.ListOptions{
+		Filter: string(filterBytes),
+	})
+	if err != nil {
+		return err
+	}
+
+	clusters = lkecluster.FilterByRefs(clusters, o.refs)
+
+	if len(clusters) != 1 {
+		return fmt.Errorf("could not find instance %v", o.refs[0])
+	}
+
+	toEdit := clusters[0]
+	spec := lkecluster.SpecFromObject(&toEdit)
+	instanceBytes, err := yaml.Marshal(spec)
+	if err != nil {
+		return err
+	}
+
+	editor := editor.NewDefaultEditor()
+	specBytes, _, err := editor.EditReader("lkecluster", toEdit.Label+".yaml", o.IOStreams, bytes.NewBuffer(instanceBytes))
+	if err != nil {
+		panic(err)
+	}
+
+	var updatedSpec lkecluster.Spec
+	if err := yaml.Unmarshal(specBytes, &updatedSpec); err != nil {
+		return err
+	}
+
+	updateOpts, err := spec.Diff(&updatedSpec)
+	if err != nil {
+		return err
+	}
+
+	if _, err = client.UpdateLKECluster(ctx, toEdit.ID, *updateOpts); err != nil {
+		return err
+	}
+
+	fmt.Fprintf(o.Out, "instance %q updated", toEdit.Label)
+	return nil
+}

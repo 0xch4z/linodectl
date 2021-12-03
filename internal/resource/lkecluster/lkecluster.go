@@ -2,10 +2,65 @@ package lkecluster
 
 import (
 	"context"
+	"reflect"
+	"time"
 
 	"github.com/Charliekenney23/linodectl/internal/resource"
 	"github.com/linode/linodego"
 )
+
+type Spec struct {
+	ID           int                             `yaml:"id"`
+	Created      *time.Time                      `yaml:"created"`
+	Updated      *time.Time                      `yaml:"updated"`
+	Region       string                          `yaml:"region"`
+	K8sVersion   string                          `yaml:"k8s_version"`
+	Status       linodego.LKEClusterStatus       `yaml:"status"`
+	Tags         []string                        `yaml:"tags"`
+	ControlPlane linodego.LKEClusterControlPlane `yaml:"control_plane"`
+}
+
+func SpecFromObject(cluster *linodego.LKECluster) *Spec {
+	return &Spec{
+		ID:           cluster.ID,
+		Created:      cluster.Created,
+		Updated:      cluster.Updated,
+		Region:       cluster.Region,
+		K8sVersion:   cluster.K8sVersion,
+		Status:       cluster.Status,
+		Tags:         cluster.Tags,
+		ControlPlane: cluster.ControlPlane,
+	}
+}
+
+func (s *Spec) Diff(in *Spec) (*linodego.LKEClusterUpdateOptions, error) {
+	o := new(linodego.LKEClusterUpdateOptions)
+	if s.ID != in.ID {
+		return nil, resource.NotUpdateableError{Name: "id"}
+	}
+	if !reflect.DeepEqual(s.Created, in.Created) {
+		return nil, resource.NotUpdateableError{Name: "created"}
+	}
+	if !reflect.DeepEqual(s.Updated, in.Updated) {
+		return nil, resource.NotUpdateableError{Name: "updated"}
+	}
+	if s.Region != in.Region {
+		return nil, resource.NotUpdateableError{Name: "region"}
+	}
+	if s.K8sVersion != in.K8sVersion {
+		o.K8sVersion = in.K8sVersion
+	}
+	if s.Status != in.Status {
+		return nil, resource.NotUpdateableError{Name: "status"}
+	}
+	if !reflect.DeepEqual(s.Tags, in.Tags) {
+		o.Tags = &in.Tags
+	}
+	if !reflect.DeepEqual(s.ControlPlane, in.ControlPlane) {
+		o.ControlPlane = &in.ControlPlane
+	}
+	return o, nil
+}
 
 type Meta struct{}
 

@@ -15,6 +15,7 @@ func NewCmdEdit(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.Command {
 	}
 
 	cmds.AddCommand(NewCmdEditInstance(f, ioStreams))
+	cmds.AddCommand(NewCmdEditLKECluster(f, ioStreams))
 
 	return cmds
 }

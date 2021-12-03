@@ -227,3 +227,18 @@ func (mr *MockClientMockRecorder) UpdateInstance(arg0, arg1, arg2 interface{}) *
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateInstance", reflect.TypeOf((*MockClient)(nil).UpdateInstance), arg0, arg1, arg2)
 }
+
+// UpdateLKECluster mocks base method.
+func (m *MockClient) UpdateLKECluster(arg0 context.Context, arg1 int, arg2 linodego.LKEClusterUpdateOptions) (*linodego.LKECluster, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateLKECluster", arg0, arg1, arg2)
+	ret0, _ := ret[0].(*linodego.LKECluster)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateLKECluster indicates an expected call of UpdateLKECluster.
+func (mr *MockClientMockRecorder) UpdateLKECluster(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateLKECluster", reflect.TypeOf((*MockClient)(nil).UpdateLKECluster), arg0, arg1, arg2)
+}
