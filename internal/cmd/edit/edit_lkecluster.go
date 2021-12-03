@@ -123,7 +123,7 @@ func (o *EditLKEClusterOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error
 
 	for id, update := range clusterPoolUpdates {
 		if update == nil {
-			fmt.Fprintf(o.Out, "Node Pool %d not updated\n", id)
+			fmt.Fprintf(o.Out, "LKE Node Pool %d not updated\n", id)
 			continue
 		}
 		if _, err := client.UpdateLKEClusterPool(ctx, toEdit.ID, id, *update); err != nil {
