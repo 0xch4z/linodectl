@@ -80,7 +80,12 @@ func (o *EditLKEClusterOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error
 	}
 
 	toEdit := clusters[0]
-	spec := lkecluster.SpecFromObject(&toEdit)
+	pools, err := client.ListLKEClusterPools(ctx, toEdit.ID, &linodego.ListOptions{})
+	if err != nil {
+		return err
+	}
+
+	spec := lkecluster.SpecFromObject(&toEdit, pools)
 	instanceBytes, err := yaml.Marshal(spec)
 	if err != nil {
 		return err
@@ -97,15 +102,44 @@ func (o *EditLKEClusterOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error
 		return err
 	}
 
+	clusterPoolUpdates := make(map[int]*linodego.LKEClusterPoolUpdateOptions)
+	for i, poolSpec := range spec.NodePools {
+		if updatedSpec.NodePools == nil || len(updatedSpec.NodePools) < i+1 {
+			return fmt.Errorf("missing nodepool %d", poolSpec.ID)
+		}
+
+		updatedPoolSpec := updatedSpec.NodePools[i]
+		updateOpts, err := poolSpec.Diff(&updatedPoolSpec)
+		if err != nil {
+			return err
+		}
+		clusterPoolUpdates[poolSpec.ID] = updateOpts
+	}
+
 	updateOpts, err := spec.Diff(&updatedSpec)
 	if err != nil {
 		return err
 	}
 
-	if _, err = client.UpdateLKECluster(ctx, toEdit.ID, *updateOpts); err != nil {
-		return err
+	for id, update := range clusterPoolUpdates {
+		if update == nil {
+			fmt.Fprintf(o.Out, "Node Pool %d not updated\n", id)
+			continue
+		}
+		if _, err := client.UpdateLKEClusterPool(ctx, toEdit.ID, id, *update); err != nil {
+			return fmt.Errorf("failed to update LKE Node Pool %d: %w", id, err)
+		}
+		fmt.Fprintf(o.Out, "LKE Node Pool %d updated\n", id)
 	}
 
-	fmt.Fprintf(o.Out, "instance %q updated", toEdit.Label)
+	if updateOpts != nil {
+		if _, err = client.UpdateLKECluster(ctx, toEdit.ID, *updateOpts); err != nil {
+			return fmt.Errorf("failed to update LKE Cluster %d: %w", toEdit.ID, err)
+		}
+		fmt.Fprintf(o.Out, "LKE Cluster %q updated\n", toEdit.Label)
+	} else {
+		fmt.Fprintf(o.Out, "LKE Cluster %q not updated\n", toEdit.Label)
+	}
+
 	return nil
 }

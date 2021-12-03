@@ -18,9 +18,63 @@ type Spec struct {
 	Status       linodego.LKEClusterStatus       `yaml:"status"`
 	Tags         []string                        `yaml:"tags"`
 	ControlPlane linodego.LKEClusterControlPlane `yaml:"control_plane"`
+	NodePools    []NodePoolSpec                  `yaml:"node_pools"`
 }
 
-func SpecFromObject(cluster *linodego.LKECluster) *Spec {
+type NodePoolSpec struct {
+	ID         int                               `yaml:"id"`
+	Count      int                               `yaml:"count"`
+	Type       string                            `yaml:"type"`
+	Disks      []linodego.LKEClusterPoolDisk     `yaml:"disks"`
+	Linodes    []linodego.LKEClusterPoolLinode   `yaml:"nodes"`
+	Tags       []string                          `yaml:"tag"`
+	Autoscaler linodego.LKEClusterPoolAutoscaler `yaml:"autoscaler"`
+}
+
+func (s *NodePoolSpec) Diff(in *NodePoolSpec) (*linodego.LKEClusterPoolUpdateOptions, error) {
+	o := new(linodego.LKEClusterPoolUpdateOptions)
+	if s.ID != in.ID {
+		return nil, resource.NotUpdateableError{Name: "id"}
+	}
+	if s.Count != in.Count {
+		o.Count = in.Count
+	}
+	if s.Type != in.Type {
+		return nil, resource.NotUpdateableError{Name: "type"}
+	}
+	if !reflect.DeepEqual(s.Disks, in.Disks) {
+		return nil, resource.NotUpdateableError{Name: "disks"}
+	}
+	if !reflect.DeepEqual(s.Linodes, in.Linodes) {
+		return nil, resource.NotUpdateableError{Name: "linodes"}
+	}
+	if !reflect.DeepEqual(s.Tags, in.Tags) {
+		o.Tags = &in.Tags
+	}
+	if !reflect.DeepEqual(s.Autoscaler, in.Autoscaler) {
+		o.Autoscaler = &in.Autoscaler
+	}
+
+	if reflect.DeepEqual(*o, linodego.LKEClusterPoolUpdateOptions{}) {
+		// nothing to update
+		return nil, nil
+	}
+	return o, nil
+}
+
+func SpecFromObject(cluster *linodego.LKECluster, pools []linodego.LKEClusterPool) *Spec {
+	nodePoolSpecs := make([]NodePoolSpec, len(pools))
+	for i, pool := range pools {
+		nodePoolSpecs[i] = NodePoolSpec{
+			ID:         pool.ID,
+			Count:      pool.Count,
+			Type:       pool.Type,
+			Disks:      pool.Disks,
+			Linodes:    pool.Linodes,
+			Tags:       pool.Tags,
+			Autoscaler: pool.Autoscaler,
+		}
+	}
 	return &Spec{
 		ID:           cluster.ID,
 		Created:      cluster.Created,
@@ -30,6 +84,7 @@ func SpecFromObject(cluster *linodego.LKECluster) *Spec {
 		Status:       cluster.Status,
 		Tags:         cluster.Tags,
 		ControlPlane: cluster.ControlPlane,
+		NodePools:    nodePoolSpecs,
 	}
 }
 
@@ -58,6 +113,11 @@ func (s *Spec) Diff(in *Spec) (*linodego.LKEClusterUpdateOptions, error) {
 	}
 	if !reflect.DeepEqual(s.ControlPlane, in.ControlPlane) {
 		o.ControlPlane = &in.ControlPlane
+	}
+
+	if reflect.DeepEqual(*o, linodego.LKEClusterUpdateOptions{}) {
+		// nothing to update
+		return nil, nil
 	}
 	return o, nil
 }
