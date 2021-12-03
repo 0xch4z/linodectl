@@ -9,30 +9,14 @@ import (
 	"github.com/Charliekenney23/linodectl/internal/cli/genericoptions"
 	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
 	"github.com/Charliekenney23/linodectl/internal/resource/instance"
+	"github.com/Charliekenney23/linodectl/internal/resource/resourceref"
 	"github.com/linode/linodego"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
 )
 
 type EditInstanceOptions struct {
-	Label string
-
-	AuthorizedUsers []string
-	BackupsEnabled  bool
-	Group           string
-	Image           string
-	PoweredOff      bool
-	PrivateIP       bool
-	Preset          string
-	Region          string
-	RootPass        string
-	StackscriptData string
-	StackscriptID   int
-	SwapSize        int
-	Tags            []string
-	Type            string
-
-	AuthorizeMe bool
+	refs resourceref.List
 
 	genericoptions.ProfileFlags
 	cmdutil.IOStreams
@@ -58,45 +42,38 @@ func NewCmdEditInstance(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.C
 		},
 	}
 
-	cmd.Flags().StringSliceVar(&o.AuthorizedUsers, "authorized-users", o.AuthorizedUsers, "Users to authorize for this instance.")
-	cmd.Flags().BoolVar(&o.BackupsEnabled, "enable-backups", false, "If true, backups will be enabled.")
-	cmd.Flags().StringVarP(&o.Group, "group", "g", "", "The group to attribute this instance to.")
-	cmd.Flags().StringVarP(&o.Image, "image", "i", "", "The image to provision this instance with.")
-	cmd.Flags().BoolVar(&o.PoweredOff, "powered-off", false, "If true, the instance will not be booted.")
-	cmd.Flags().BoolVar(&o.PrivateIP, "private-ip", false, "If true, a private IP will be allocated for this instance.")
-	cmd.Flags().StringVar(&o.Preset, "preset", "", "The preset to use for this instance.")
-	cmd.Flags().StringVar(&o.Region, "region", "", "The region to deploy this instance in.")
-	cmd.Flags().StringVar(&o.RootPass, "root-pass", "", "The root pass to set on this instance.")
-	cmd.Flags().IntVarP(&o.SwapSize, "swap-size", "s", 0, "The swap size for the instance.")
-	cmd.Flags().StringSliceVar(&o.Tags, "tags", o.Tags, "The tags to add to this instance.")
-	cmd.Flags().StringVar(&o.Type, "type", "", "The type of this instance.")
-
 	o.ProfileFlags.AddFlags(cmd)
 	return cmd
 }
 
 func (o *EditInstanceOptions) Complete(f cmdutil.Factory, ioStreams cmdutil.IOStreams, args []string) (err error) {
-	if len(args) == 1 {
-		o.Label = args[0]
+	if o.refs, err = resourceref.ListFromArgs(args); err != nil {
+		return err
 	}
-
 	return nil
 }
 
 func (o *EditInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error {
+	if len(o.refs) == 0 {
+		return fmt.Errorf("exactly one Instance ID or label must be specified")
+	}
+
 	client, err := f.Client(o.ProfileName())
 	if err != nil {
 		return err
 	}
 
-	filter := linodego.Filter{}
-	filter.AddField(linodego.Eq, "label", o.Label)
-	filterBytes, err := filter.MarshalJSON()
-	if err != nil {
-		return err
+	ctx := context.Background()
+	var filterBytes []byte
+
+	if o.refs.Label() != "" {
+		filter := linodego.Filter{}
+		filter.AddField(linodego.Eq, "label", o.refs.Label())
+		if filterBytes, err = filter.MarshalJSON(); err != nil {
+			return err
+		}
 	}
 
-	ctx := context.Background()
 	instances, err := client.ListInstances(ctx, &linodego.ListOptions{
 		Filter: string(filterBytes),
 	})
@@ -104,19 +81,21 @@ func (o *EditInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error {
 		return err
 	}
 
-	if len(instances) == 0 {
-		return fmt.Errorf("instance %q does not exist", o.Label)
+	instances = instance.FilterByRefs(instances, o.refs)
+
+	if len(instances) != 1 {
+		return fmt.Errorf("could not find instance %v", o.refs[0])
 	}
 
-	i := instances[0]
-	spec := instance.SpecFromObject(&i)
+	toEdit := instances[0]
+	spec := instance.SpecFromObject(&toEdit)
 	instanceBytes, err := yaml.Marshal(spec)
 	if err != nil {
 		return err
 	}
 
 	editor := editor.NewDefaultEditor()
-	specBytes, _, err := editor.EditReader("instance", o.Label+".yaml", o.IOStreams, bytes.NewBuffer(instanceBytes))
+	specBytes, _, err := editor.EditReader("instance", toEdit.Label+".yaml", o.IOStreams, bytes.NewBuffer(instanceBytes))
 	if err != nil {
 		panic(err)
 	}
@@ -131,10 +110,10 @@ func (o *EditInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error {
 		return err
 	}
 
-	if _, err = client.UpdateInstance(ctx, i.ID, *updateOpts); err != nil {
+	if _, err = client.UpdateInstance(ctx, toEdit.ID, *updateOpts); err != nil {
 		return err
 	}
 
-	fmt.Fprintf(o.Out, "instance %q updated", i.Label)
+	fmt.Fprintf(o.Out, "instance %q updated", toEdit.Label)
 	return nil
 }
