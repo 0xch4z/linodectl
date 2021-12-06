@@ -35,7 +35,7 @@ func CreateTempKeyPair(ctx context.Context, client linode.Client, buckets []lino
 
 	cleanup := func() {
 		if err := client.DeleteObjectStorageKey(ctx, key.ID); err != nil {
-			log.Printf("failed to delete temporary object storage key %q (%d): %w", key.Label, key.ID, err)
+			log.Printf("failed to delete temporary object storage key %q (%d): %v", key.Label, key.ID, err)
 		}
 	}
 	return key, cleanup, nil
