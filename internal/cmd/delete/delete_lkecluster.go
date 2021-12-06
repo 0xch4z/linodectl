@@ -98,7 +98,7 @@ func (o *DeleteLKEClusterOptions) Run(f cmdutil.Factory, cmd *cobra.Command) err
 		if err := client.DeleteLKECluster(context.Background(), cluster.ID); err != nil {
 			return err
 		}
-		fmt.Fprintf(o.Out, "StackScript %q (%d) deleted...\n", cluster.Label, cluster.ID)
+		fmt.Fprintf(o.Out, "LKE Cluster %q (%d) deleted...\n", cluster.Label, cluster.ID)
 	}
 	return nil
 }
