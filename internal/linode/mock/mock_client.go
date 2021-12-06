@@ -94,6 +94,20 @@ func (mr *MockClientMockRecorder) DeleteInstance(arg0, arg1 interface{}) *gomock
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteInstance", reflect.TypeOf((*MockClient)(nil).DeleteInstance), arg0, arg1)
 }
 
+// DeleteLKECluster mocks base method.
+func (m *MockClient) DeleteLKECluster(arg0 context.Context, arg1 int) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteLKECluster", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteLKECluster indicates an expected call of DeleteLKECluster.
+func (mr *MockClientMockRecorder) DeleteLKECluster(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteLKECluster", reflect.TypeOf((*MockClient)(nil).DeleteLKECluster), arg0, arg1)
+}
+
 // DeleteObjectStorageBucket mocks base method.
 func (m *MockClient) DeleteObjectStorageBucket(arg0 context.Context, arg1, arg2 string) error {
 	m.ctrl.T.Helper()

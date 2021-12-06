@@ -27,6 +27,7 @@ type Client interface {
 	GetLKEClusterKubeconfig(context.Context, int) (*linodego.LKEClusterKubeconfig, error)
 	UpdateLKECluster(context.Context, int, linodego.LKEClusterUpdateOptions) (*linodego.LKECluster, error)
 	UpdateLKEClusterPool(context.Context, int, int, linodego.LKEClusterPoolUpdateOptions) (*linodego.LKEClusterPool, error)
+	DeleteLKECluster(context.Context, int) error
 
 	ListStackscripts(context.Context, *linodego.ListOptions) ([]linodego.Stackscript, error)
 	DeleteStackscript(context.Context, int) error
