@@ -28,7 +28,7 @@ func (f *FilterFlags) Filter(label string) *linodego.Filter {
 	}
 
 	if f.tag != "" {
-		filter.AddField(linodego.Eq, "tag", f.tag)
+		filter.AddField(linodego.Eq, "tags", f.tag)
 	}
 	return filter
 }
