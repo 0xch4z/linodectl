@@ -5,11 +5,14 @@ import (
 
 	"github.com/Charliekenney23/linodectl/internal/config"
 	"github.com/Charliekenney23/linodectl/internal/linode"
+	"github.com/spf13/cobra"
 )
 
 var (
 	profileNotExistErr = errors.New("profile does not exist")
 )
+
+type CommandFactoryFunc func(Factory, IOStreams) *cobra.Command
 
 type Factory interface {
 	ConfigProvider() config.Provider

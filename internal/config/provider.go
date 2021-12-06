@@ -84,6 +84,7 @@ func (p provider) Load() (*Config, error) {
 // DefaultConfig returns a default, minimal config.
 func DefaultConfig() *Config {
 	return &Config{
+		Profile: "default",
 		Profiles: map[string]Profile{
 			"default": {
 				APIVersion: "v4",
