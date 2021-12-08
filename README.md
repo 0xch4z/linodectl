@@ -1,5 +1,7 @@
 # linodectl
 
+![linodectl edit demo](/assets/demo.gif)
+
 A command line interface to manage your Linode infrastructure.
 
 ## Usage

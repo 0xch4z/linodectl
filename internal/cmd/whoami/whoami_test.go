@@ -13,12 +13,8 @@ func TestWhoami(t *testing.T) {
 	t.Run("gets username", func(t *testing.T) {
 		cmd, i := test.Command(t, NewCmdWhoami)
 		username := "someonesname"
-		i.Client.EXPECT().GetProfile(gomock.Any()).Times(1).Return(&linodego.Profile{
-			Username: username,
-		}, nil)
-
-		err := cmd.Execute()
-		assert.NoError(t, err)
+		i.Client.EXPECT().GetProfile(gomock.Any()).Times(1).Return(&linodego.Profile{Username: username}, nil)
+		assert.NoError(t, cmd.Execute())
 		assert.Equal(t, i.Streams.Out.String(), username+"\n")
 	})
 }
