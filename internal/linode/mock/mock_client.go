@@ -65,6 +65,21 @@ func (mr *MockClientMockRecorder) CreateLKECluster(arg0, arg1 interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateLKECluster", reflect.TypeOf((*MockClient)(nil).CreateLKECluster), arg0, arg1)
 }
 
+// CreateObjectStorageBucket mocks base method.
+func (m *MockClient) CreateObjectStorageBucket(arg0 context.Context, arg1 linodego.ObjectStorageBucketCreateOptions) (*linodego.ObjectStorageBucket, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateObjectStorageBucket", arg0, arg1)
+	ret0, _ := ret[0].(*linodego.ObjectStorageBucket)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateObjectStorageBucket indicates an expected call of CreateObjectStorageBucket.
+func (mr *MockClientMockRecorder) CreateObjectStorageBucket(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateObjectStorageBucket", reflect.TypeOf((*MockClient)(nil).CreateObjectStorageBucket), arg0, arg1)
+}
+
 // CreateObjectStorageKey mocks base method.
 func (m *MockClient) CreateObjectStorageKey(arg0 context.Context, arg1 linodego.ObjectStorageKeyCreateOptions) (*linodego.ObjectStorageKey, error) {
 	m.ctrl.T.Helper()

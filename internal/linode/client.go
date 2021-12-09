@@ -34,6 +34,7 @@ type Client interface {
 
 	ListObjectStorageBuckets(context.Context, *linodego.ListOptions) ([]linodego.ObjectStorageBucket, error)
 	DeleteObjectStorageBucket(context.Context, string, string) error
+	CreateObjectStorageBucket(context.Context, linodego.ObjectStorageBucketCreateOptions) (*linodego.ObjectStorageBucket, error)
 	CreateObjectStorageKey(context.Context, linodego.ObjectStorageKeyCreateOptions) (*linodego.ObjectStorageKey, error)
 	DeleteObjectStorageKey(context.Context, int) error
 

@@ -37,5 +37,6 @@ func NewCmdCreate(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.Command
 
 	cmds.AddCommand(NewCmdCreateInstance(f, ioStreams))
 	cmds.AddCommand(NewCmdCreateLKECluister(f, ioStreams))
+	cmds.AddCommand(NewCmdCreateBucket(f, ioStreams))
 	return cmds
 }
