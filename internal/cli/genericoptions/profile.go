@@ -14,7 +14,7 @@ func (f *ProfileFlags) AddFlags(c *cobra.Command) {
 		return
 	}
 
-	c.Flags().StringVarP(&f.profileName, "profile", "p", "", "The profile to use for communicating with the Linode API")
+	c.PersistentFlags().StringVarP(&f.profileName, "profile", "p", "", "The profile to use for communicating with the Linode API")
 }
 
 // ProfileName gets the name of the specified profile from the flag.
