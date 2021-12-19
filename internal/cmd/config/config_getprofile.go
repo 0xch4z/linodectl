@@ -18,14 +18,10 @@ func NewCmdConfigGetProfile(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cob
 	return &cobra.Command{
 		Use:   "get-profile",
 		Short: "Get current profile",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			config := f.Config()
 
-			profile, ok := config.CurrentProfile()
-			if !ok {
-				return nil
-			}
-
+			profile, _ := config.CurrentProfile()
 			_, _ = fmt.Fprintf(ioStreams.Out, "name: %s\n", strutil.Fallback(config.Profile, "default"))
 			_, _ = fmt.Fprintf(ioStreams.Out, "apiVersion: %s\n", strutil.Fallback(profile.APIVersion, "$LINODE_API_VERSION"))
 			_, _ = fmt.Fprintf(ioStreams.Out, "apiBaseURL: %s\n", strutil.Fallback(profile.APIBaseURL, "$LINODE_URL"))

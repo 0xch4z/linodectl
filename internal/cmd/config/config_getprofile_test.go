@@ -26,13 +26,4 @@ token: *****
 region: us-east
 `)
 	})
-
-	t.Run("outputs nothing when no profile", func(t *testing.T) {
-		cmd, i := test.Command(t, NewCmdConfig)
-		i.Config = &config.Config{}
-
-		cmd.SetArgs([]string{"get-profile"})
-		assert.NoError(t, cmd.Execute())
-		assert.Equal(t, i.Streams.Out.String(), "")
-	})
 }
