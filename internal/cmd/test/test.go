@@ -2,12 +2,15 @@ package test
 
 import (
 	"bytes"
+	"context"
 	"testing"
 
 	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
 	"github.com/Charliekenney23/linodectl/internal/config"
 	configmock "github.com/Charliekenney23/linodectl/internal/config/mock"
 	clientmock "github.com/Charliekenney23/linodectl/internal/linode/mock"
+	"github.com/Charliekenney23/linodectl/internal/printer"
+	"github.com/Charliekenney23/linodectl/internal/resource"
 	"github.com/golang/mock/gomock"
 	"github.com/spf13/cobra"
 )
@@ -23,6 +26,13 @@ type Invocation struct {
 	Streams        *Streams
 
 	Mock *gomock.Controller
+}
+
+func MockPrintResources(resources resource.List, options printer.ResourcePrintOptions) string {
+	printerBuf := bytes.NewBuffer(nil)
+	p := printer.New(printerBuf)
+	_ = p.PrintResources(context.TODO(), resources, options)
+	return printerBuf.String()
 }
 
 func Command(t *testing.T, cmdFactory cmdutil.CommandFactoryFunc) (*cobra.Command, *Invocation) {
