@@ -1,12 +1,12 @@
 package linode
 
-//go:generate mockgen -destination mock/mock_client.go -package mock github.com/Charliekenney23/linodectl/internal/linode Client
+//go:generate mockgen -destination mock/mock_client.go -package mock github.com/0xch4z/linodectl/internal/linode Client
 
 import (
 	"context"
 	"os"
 
-	"github.com/Charliekenney23/linodectl/internal/config"
+	"github.com/0xch4z/linodectl/internal/config"
 	"github.com/linode/linodego"
 )
 

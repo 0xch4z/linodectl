@@ -4,9 +4,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/Charliekenney23/linodectl/internal/cmd/test"
-	"github.com/Charliekenney23/linodectl/internal/printer"
-	"github.com/Charliekenney23/linodectl/internal/resource/instance"
+	"github.com/0xch4z/linodectl/internal/cmd/test"
+	"github.com/0xch4z/linodectl/internal/printer"
+	"github.com/0xch4z/linodectl/internal/resource/instance"
 	"github.com/golang/mock/gomock"
 	"github.com/linode/linodego"
 	"github.com/stretchr/testify/assert"

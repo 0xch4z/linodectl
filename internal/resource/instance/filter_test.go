@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/Charliekenney23/linodectl/internal/linode/mock"
+	"github.com/0xch4z/linodectl/internal/linode/mock"
 	"github.com/golang/mock/gomock"
 	"github.com/linode/linodego"
 	"github.com/stretchr/testify/assert"

@@ -3,14 +3,14 @@ package cmd
 import (
 	"io"
 
-	"github.com/Charliekenney23/linodectl/internal/cli/genericoptions"
-	"github.com/Charliekenney23/linodectl/internal/cmd/config"
-	"github.com/Charliekenney23/linodectl/internal/cmd/create"
-	"github.com/Charliekenney23/linodectl/internal/cmd/delete"
-	"github.com/Charliekenney23/linodectl/internal/cmd/edit"
-	"github.com/Charliekenney23/linodectl/internal/cmd/get"
-	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
-	"github.com/Charliekenney23/linodectl/internal/cmd/whoami"
+	"github.com/0xch4z/linodectl/internal/cli/genericoptions"
+	"github.com/0xch4z/linodectl/internal/cmd/config"
+	"github.com/0xch4z/linodectl/internal/cmd/create"
+	"github.com/0xch4z/linodectl/internal/cmd/delete"
+	"github.com/0xch4z/linodectl/internal/cmd/edit"
+	"github.com/0xch4z/linodectl/internal/cmd/get"
+	cmdutil "github.com/0xch4z/linodectl/internal/cmd/util"
+	"github.com/0xch4z/linodectl/internal/cmd/whoami"
 	"github.com/spf13/cobra"
 )
 

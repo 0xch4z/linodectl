@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Charliekenney23/linodectl/internal/cli/genericoptions"
-	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
-	"github.com/Charliekenney23/linodectl/internal/printer"
-	"github.com/Charliekenney23/linodectl/internal/ptr"
-	"github.com/Charliekenney23/linodectl/internal/resource/instance"
-	"github.com/Charliekenney23/linodectl/internal/strutil"
+	"github.com/0xch4z/linodectl/internal/cli/genericoptions"
+	cmdutil "github.com/0xch4z/linodectl/internal/cmd/util"
+	"github.com/0xch4z/linodectl/internal/printer"
+	"github.com/0xch4z/linodectl/internal/ptr"
+	"github.com/0xch4z/linodectl/internal/resource/instance"
+	"github.com/0xch4z/linodectl/internal/strutil"
 	"github.com/spf13/cobra"
 
 	"github.com/linode/linodego"

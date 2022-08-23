@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"testing"
 
-	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
-	"github.com/Charliekenney23/linodectl/internal/config"
-	configmock "github.com/Charliekenney23/linodectl/internal/config/mock"
+	cmdutil "github.com/0xch4z/linodectl/internal/cmd/util"
+	"github.com/0xch4z/linodectl/internal/config"
+	configmock "github.com/0xch4z/linodectl/internal/config/mock"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 )

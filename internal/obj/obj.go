@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/Charliekenney23/linodectl/internal/linode"
+	"github.com/0xch4z/linodectl/internal/linode"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"

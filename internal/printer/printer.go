@@ -6,8 +6,8 @@ import (
 	"io"
 	"strings"
 
-	"github.com/Charliekenney23/linodectl/internal/resource"
-	"github.com/Charliekenney23/linodectl/internal/strutil"
+	"github.com/0xch4z/linodectl/internal/resource"
+	"github.com/0xch4z/linodectl/internal/strutil"
 	"github.com/jedib0t/go-pretty/v6/table"
 )
 

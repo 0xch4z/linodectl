@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/Charliekenney23/linodectl/internal/cmd"
-	"github.com/Charliekenney23/linodectl/internal/cmd/util"
+	"github.com/0xch4z/linodectl/internal/cmd"
+	"github.com/0xch4z/linodectl/internal/cmd/util"
 	"github.com/spf13/cobra/doc"
 )
 

@@ -5,12 +5,12 @@ import (
 	"context"
 	"testing"
 
-	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
-	"github.com/Charliekenney23/linodectl/internal/config"
-	configmock "github.com/Charliekenney23/linodectl/internal/config/mock"
-	clientmock "github.com/Charliekenney23/linodectl/internal/linode/mock"
-	"github.com/Charliekenney23/linodectl/internal/printer"
-	"github.com/Charliekenney23/linodectl/internal/resource"
+	cmdutil "github.com/0xch4z/linodectl/internal/cmd/util"
+	"github.com/0xch4z/linodectl/internal/config"
+	configmock "github.com/0xch4z/linodectl/internal/config/mock"
+	clientmock "github.com/0xch4z/linodectl/internal/linode/mock"
+	"github.com/0xch4z/linodectl/internal/printer"
+	"github.com/0xch4z/linodectl/internal/resource"
 	"github.com/golang/mock/gomock"
 	"github.com/spf13/cobra"
 )

@@ -3,8 +3,8 @@ package config
 import (
 	"testing"
 
-	"github.com/Charliekenney23/linodectl/internal/cmd/test"
-	"github.com/Charliekenney23/linodectl/internal/config"
+	"github.com/0xch4z/linodectl/internal/cmd/test"
+	"github.com/0xch4z/linodectl/internal/config"
 	"github.com/stretchr/testify/assert"
 )
 

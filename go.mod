@@ -1,4 +1,4 @@
-module github.com/Charliekenney23/linodectl
+module github.com/0xch4z/linodectl
 
 go 1.17
 

@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/Charliekenney23/linodectl/internal/resource"
+	"github.com/0xch4z/linodectl/internal/resource"
 	"github.com/linode/linodego"
 )
 

@@ -3,8 +3,8 @@ package util
 import (
 	"errors"
 
-	"github.com/Charliekenney23/linodectl/internal/config"
-	"github.com/Charliekenney23/linodectl/internal/linode"
+	"github.com/0xch4z/linodectl/internal/config"
+	"github.com/0xch4z/linodectl/internal/linode"
 	"github.com/spf13/cobra"
 )
 

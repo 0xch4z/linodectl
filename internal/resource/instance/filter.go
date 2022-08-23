@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Charliekenney23/linodectl/internal/linode"
-	"github.com/Charliekenney23/linodectl/internal/resource/resourceref"
+	"github.com/0xch4z/linodectl/internal/linode"
+	"github.com/0xch4z/linodectl/internal/resource/resourceref"
 	"github.com/linode/linodego"
 	"github.com/spf13/cobra"
 )

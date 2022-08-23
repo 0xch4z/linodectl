@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Charliekenney23/linodectl/internal/cli/genericoptions"
-	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
+	"github.com/0xch4z/linodectl/internal/cli/genericoptions"
+	cmdutil "github.com/0xch4z/linodectl/internal/cmd/util"
 	"github.com/spf13/cobra"
 )
 

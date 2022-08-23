@@ -1,7 +1,7 @@
 package config
 
 import (
-	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
+	cmdutil "github.com/0xch4z/linodectl/internal/cmd/util"
 	"github.com/spf13/cobra"
 )
 

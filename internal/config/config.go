@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/Charliekenney23/linodectl/internal/strutil"
+	"github.com/0xch4z/linodectl/internal/strutil"
 )
 
 type SSHConfig struct {

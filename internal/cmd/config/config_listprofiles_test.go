@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"testing"
 
-	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
-	"github.com/Charliekenney23/linodectl/internal/config"
+	cmdutil "github.com/0xch4z/linodectl/internal/cmd/util"
+	"github.com/0xch4z/linodectl/internal/config"
 	"github.com/stretchr/testify/assert"
 )
 

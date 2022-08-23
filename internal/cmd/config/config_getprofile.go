@@ -3,8 +3,8 @@ package config
 import (
 	"fmt"
 
-	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
-	"github.com/Charliekenney23/linodectl/internal/strutil"
+	cmdutil "github.com/0xch4z/linodectl/internal/cmd/util"
+	"github.com/0xch4z/linodectl/internal/strutil"
 	"github.com/spf13/cobra"
 )
 

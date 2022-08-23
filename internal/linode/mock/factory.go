@@ -1,9 +1,9 @@
 package mock
 
 import (
-	"github.com/Charliekenney23/linodectl/internal/cmd/util"
-	"github.com/Charliekenney23/linodectl/internal/config"
-	"github.com/Charliekenney23/linodectl/internal/linode"
+	"github.com/0xch4z/linodectl/internal/cmd/util"
+	"github.com/0xch4z/linodectl/internal/config"
+	"github.com/0xch4z/linodectl/internal/linode"
 	"github.com/golang/mock/gomock"
 )
 

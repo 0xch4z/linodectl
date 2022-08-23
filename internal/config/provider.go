@@ -1,6 +1,6 @@
 package config
 
-//go:generate mockgen -destination mock/mock_provider.go -package mock github.com/Charliekenney23/linodectl/internal/config Provider
+//go:generate mockgen -destination mock/mock_provider.go -package mock github.com/0xch4z/linodectl/internal/config Provider
 
 import (
 	"fmt"

@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Charliekenney23/linodectl/internal/cli/genericoptions"
-	cmdutil "github.com/Charliekenney23/linodectl/internal/cmd/util"
-	"github.com/Charliekenney23/linodectl/internal/resource/resourceref"
-	"github.com/Charliekenney23/linodectl/internal/resource/stackscript"
+	"github.com/0xch4z/linodectl/internal/cli/genericoptions"
+	cmdutil "github.com/0xch4z/linodectl/internal/cmd/util"
+	"github.com/0xch4z/linodectl/internal/resource/resourceref"
+	"github.com/0xch4z/linodectl/internal/resource/stackscript"
 	"github.com/linode/linodego"
 	"github.com/spf13/cobra"
 )

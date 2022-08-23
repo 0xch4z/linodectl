@@ -1,7 +1,7 @@
 package bucket
 
 import (
-	"github.com/Charliekenney23/linodectl/internal/resource/resourceref"
+	"github.com/0xch4z/linodectl/internal/resource/resourceref"
 	"github.com/linode/linodego"
 )
 
