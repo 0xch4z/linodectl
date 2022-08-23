@@ -31,4 +31,10 @@ Flags:
 Use "linodectl [command] --help" for more information about a command.
 ```
 
+## Installation
+
+```
+go install github.com/0xch4z/linodectl/cmd/linodectl@latest
+```
+
 See documentation [here](./docs/linodectl.md)
