@@ -7,7 +7,7 @@ import (
 
 // Ref is a reference to a resource. This can either be an ID or Label.
 type Ref struct {
-	val interface{}
+	val any
 }
 
 type Meta struct {
@@ -68,7 +68,7 @@ func (l List) Identifiers() (map[string]struct{}, map[int]struct{}) {
 	return labels, ids
 }
 
-func newRef(v interface{}) (*Ref, error) {
+func newRef(v any) (*Ref, error) {
 	switch val := v.(type) {
 	case int:
 		if val < 0 {

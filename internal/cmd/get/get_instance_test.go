@@ -7,7 +7,7 @@ import (
 	"github.com/0xch4z/linodectl/internal/cmd/test"
 	"github.com/0xch4z/linodectl/internal/printer"
 	"github.com/0xch4z/linodectl/internal/resource/instance"
-	"github.com/golang/mock/gomock"
+	"go.uber.org/mock/gomock"
 	"github.com/linode/linodego"
 	"github.com/stretchr/testify/assert"
 )

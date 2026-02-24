@@ -77,7 +77,7 @@ func (s *Spec) Diff(in *Spec) (*linodego.InstanceUpdateOptions, error) {
 		return nil, resource.NotUpdateableError{Name: "image"}
 	}
 	if s.Group != in.Group {
-		o.Group = in.Group
+		o.Group = &in.Group
 	}
 	if !reflect.DeepEqual(s.IPv4, in.IPv4) {
 		return nil, resource.NotUpdateableError{Name: "ipv4"}
@@ -101,7 +101,7 @@ func (s *Spec) Diff(in *Spec) (*linodego.InstanceUpdateOptions, error) {
 		return nil, resource.NotUpdateableError{Name: "specs"}
 	}
 	if s.WatchdogEnabled != in.WatchdogEnabled {
-		o.WatchdogEnabled = ptr.Bool(in.WatchdogEnabled)
+		o.WatchdogEnabled = ptr.To(in.WatchdogEnabled)
 	}
 	if !reflect.DeepEqual(s.Tags, in.Tags) {
 		o.Tags = &in.Tags
@@ -146,48 +146,48 @@ var _ resource.Resource = (*Resource)(nil)
 
 func (r Resource) Properties() resource.PropertyMap {
 	return resource.PropertyMap{
-		"id": {
-			Getter: func(context.Context) (interface{}, error) {
+		"id": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.ID, nil
 			},
 		},
-		"label": {
-			Getter: func(context.Context) (interface{}, error) {
+		"label": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Label, nil
 			},
 		},
-		"image": {
-			Getter: func(context.Context) (interface{}, error) {
+		"image": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Image, nil
 			},
 		},
-		"type": {
-			Getter: func(context.Context) (interface{}, error) {
+		"type": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Type, nil
 			},
 		},
-		"region": {
-			Getter: func(c context.Context) (interface{}, error) {
+		"region": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Region, nil
 			},
 		},
-		"status": {
-			Getter: func(c context.Context) (interface{}, error) {
+		"status": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Status, nil
 			},
 		},
-		"tags": {
-			Getter: func(c context.Context) (interface{}, error) {
+		"tags": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Tags, nil
 			},
 		},
-		"ipv4": {
-			Getter: func(c context.Context) (interface{}, error) {
+		"ipv4": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.IPv4, nil
 			},
 		},
-		"ipv6": {
-			Getter: func(c context.Context) (interface{}, error) {
+		"ipv6": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.IPv6, nil
 			},
 		},

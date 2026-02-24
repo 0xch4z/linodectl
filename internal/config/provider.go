@@ -1,14 +1,15 @@
 package config
 
-//go:generate mockgen -destination mock/mock_provider.go -package mock github.com/0xch4z/linodectl/internal/config Provider
+//go:generate go run go.uber.org/mock/mockgen -destination mock/mock_provider.go -package mock github.com/0xch4z/linodectl/internal/config Provider
 
 import (
+	"errors"
 	"fmt"
-	"io/ioutil"
+	"io/fs"
 	"os"
 	"path/filepath"
 
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 const fileName = ".linodectl"
@@ -64,9 +65,9 @@ func (p provider) Load() (*Config, error) {
 		return nil, err
 	}
 
-	configBytes, err := ioutil.ReadFile(configPath)
+	configBytes, err := os.ReadFile(configPath)
 	if err != nil {
-		if os.IsNotExist(err) {
+		if errors.Is(err, fs.ErrNotExist) {
 			// the config file does not exist; create it
 			config := DefaultConfig()
 			return config, p.Save(config)

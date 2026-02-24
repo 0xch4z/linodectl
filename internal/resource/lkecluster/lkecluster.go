@@ -112,7 +112,9 @@ func (s *Spec) Diff(in *Spec) (*linodego.LKEClusterUpdateOptions, error) {
 		o.Tags = &in.Tags
 	}
 	if !reflect.DeepEqual(s.ControlPlane, in.ControlPlane) {
-		o.ControlPlane = &in.ControlPlane
+		o.ControlPlane = &linodego.LKEClusterControlPlaneOptions{
+			HighAvailability: &in.ControlPlane.HighAvailability,
+		}
 	}
 
 	if reflect.DeepEqual(*o, linodego.LKEClusterUpdateOptions{}) {
@@ -159,33 +161,33 @@ var _ resource.Resource = (*Resource)(nil)
 
 func (r Resource) Properties() resource.PropertyMap {
 	return resource.PropertyMap{
-		"id": {
-			Getter: func(context.Context) (interface{}, error) {
+		"id": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.ID, nil
 			},
 		},
-		"label": {
-			Getter: func(context.Context) (interface{}, error) {
+		"label": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Label, nil
 			},
 		},
-		"region": {
-			Getter: func(c context.Context) (interface{}, error) {
+		"region": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Region, nil
 			},
 		},
-		"k8s_version": {
-			Getter: func(context.Context) (interface{}, error) {
+		"k8s_version": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.K8sVersion, nil
 			},
 		},
-		"status": {
-			Getter: func(c context.Context) (interface{}, error) {
+		"status": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Status, nil
 			},
 		},
-		"tags": {
-			Getter: func(c context.Context) (interface{}, error) {
+		"tags": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Tags, nil
 			},
 		},

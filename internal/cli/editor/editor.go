@@ -4,8 +4,8 @@ package editor
 
 import (
 	"fmt"
+	"errors"
 	"io"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -81,10 +81,9 @@ func (e Editor) Launch(ioStreams util.IOStreams, path string) error {
 	cmd.Stderr = ioStreams.Err
 	cmd.Stdin = ioStreams.In
 	if err := cmd.Run(); err != nil {
-		if err, ok := err.(*exec.Error); ok {
-			if err.Err == exec.ErrNotFound {
-				panic(err)
-			}
+		var execErr *exec.Error
+		if errors.As(err, &execErr) && errors.Is(execErr.Err, exec.ErrNotFound) {
+			panic(execErr)
 		}
 		panic(err)
 	}
@@ -113,6 +112,6 @@ func (e Editor) EditReader(prefix, suffix string, ioStreams util.IOStreams, r io
 	if err := e.Launch(ioStreams, path); err != nil {
 		return nil, path, err
 	}
-	bytes, err := ioutil.ReadFile(path)
+	bytes, err := os.ReadFile(path)
 	return bytes, path, err
 }

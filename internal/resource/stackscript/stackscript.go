@@ -44,28 +44,28 @@ var _ resource.Resource = (*Resource)(nil)
 
 func (r Resource) Properties() resource.PropertyMap {
 	return resource.PropertyMap{
-		"id": {
-			Getter: func(context.Context) (interface{}, error) {
+		"id": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.ID, nil
 			},
 		},
-		"label": {
-			Getter: func(context.Context) (interface{}, error) {
+		"label": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Label, nil
 			},
 		},
-		"mine": {
-			Getter: func(context.Context) (interface{}, error) {
+		"mine": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Mine, nil
 			},
 		},
-		"is_public": {
-			Getter: func(context.Context) (interface{}, error) {
+		"is_public": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.IsPublic, nil
 			},
 		},
-		"images": {
-			Getter: func(context.Context) (interface{}, error) {
+		"images": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Images, nil
 			},
 		},

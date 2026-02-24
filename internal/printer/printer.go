@@ -22,7 +22,7 @@ func New(w io.Writer) Printer {
 }
 
 func (p *Printer) setResourceHeader(columns []string) {
-	cols := make([]interface{}, len(columns))
+	cols := make([]any, len(columns))
 	for i, col := range columns {
 		cols[i] = col
 	}
@@ -85,16 +85,16 @@ func (p *Printer) PrintResources(ctx context.Context, resList resource.List, opt
 }
 
 func (p *Printer) printResource(ctx context.Context, meta resource.Meta, res resource.Resource, columns []string) error {
-	values := make([]interface{}, len(columns))
+	values := make([]any, len(columns))
 	properties := res.Properties()
 	for i, col := range columns {
-		property, ok := properties[col]
+		prop, ok := properties[col]
 		if !ok {
 			return fmt.Errorf("property %q does not exist on resource %q", col, meta.Name())
 		}
 
 		var err error
-		values[i], err = property.Getter(ctx)
+		values[i], err = prop.Getter(ctx)
 		if err != nil {
 			return fmt.Errorf("failed to resolve value %q from resource %q: %w", col, meta.Name(), err)
 		}

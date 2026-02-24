@@ -12,7 +12,7 @@ import (
 	"github.com/0xch4z/linodectl/internal/resource/resourceref"
 	"github.com/linode/linodego"
 	"github.com/spf13/cobra"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 type EditLKEClusterOptions struct {

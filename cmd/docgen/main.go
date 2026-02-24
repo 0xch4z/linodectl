@@ -1,7 +1,7 @@
 package main
 
 import (
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 
@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	rootcmd := cmd.NewRootCommand(util.NewFactory(nil, nil, nil), os.Stdin, ioutil.Discard, ioutil.Discard)
+	rootcmd := cmd.NewRootCommand(util.NewFactory(nil, nil, nil), os.Stdin, io.Discard, io.Discard)
 	if err := doc.GenMarkdownTree(rootcmd, "./docs"); err != nil {
 		log.Fatal(err)
 	}

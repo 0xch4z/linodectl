@@ -58,5 +58,5 @@ func (f *PrinterFlags) Descending() bool {
 
 // NoHeader returns whether the resource printer should omit the header.
 func (f *PrinterFlags) NoHeader() bool {
-	return f.descending
+	return f.noHeader
 }

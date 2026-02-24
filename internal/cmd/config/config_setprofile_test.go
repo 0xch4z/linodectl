@@ -7,7 +7,7 @@ import (
 	cmdutil "github.com/0xch4z/linodectl/internal/cmd/util"
 	"github.com/0xch4z/linodectl/internal/config"
 	configmock "github.com/0xch4z/linodectl/internal/config/mock"
-	"github.com/golang/mock/gomock"
+	"go.uber.org/mock/gomock"
 	"github.com/stretchr/testify/assert"
 )
 

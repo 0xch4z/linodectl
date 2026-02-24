@@ -4,7 +4,7 @@ import (
 	"github.com/0xch4z/linodectl/internal/cmd/util"
 	"github.com/0xch4z/linodectl/internal/config"
 	"github.com/0xch4z/linodectl/internal/linode"
-	"github.com/golang/mock/gomock"
+	"go.uber.org/mock/gomock"
 )
 
 func ClientFactory(ctrl *gomock.Controller) (util.ClientFactoryFunc, *MockClient) {

@@ -132,7 +132,7 @@ func (o *CreateInstanceOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error
 		Label:           o.Label,
 		AuthorizedUsers: o.AuthorizedUsers,
 		BackupsEnabled:  o.BackupsEnabled,
-		Booted:          ptr.Bool(!o.PoweredOff),
+		Booted:          ptr.To(!o.PoweredOff),
 		Group:           o.Group,
 		Image:           o.Image,
 		Region:          o.Region,

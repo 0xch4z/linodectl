@@ -6,7 +6,7 @@ import (
 	"github.com/0xch4z/linodectl/internal/cli/editor"
 	cmdutil "github.com/0xch4z/linodectl/internal/cmd/util"
 	"github.com/spf13/cobra"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 func NewCmdConfigEdit(f cmdutil.Factory, ioStreams cmdutil.IOStreams) *cobra.Command {

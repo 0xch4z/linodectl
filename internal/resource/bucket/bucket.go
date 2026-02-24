@@ -44,18 +44,18 @@ var _ resource.Resource = (*Resource)(nil)
 
 func (r Resource) Properties() resource.PropertyMap {
 	return resource.PropertyMap{
-		"label": {
-			Getter: func(context.Context) (interface{}, error) {
+		"label": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Label, nil
 			},
 		},
-		"cluster": {
-			Getter: func(c context.Context) (interface{}, error) {
+		"cluster": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Cluster, nil
 			},
 		},
-		"hostname": {
-			Getter: func(context.Context) (interface{}, error) {
+		"hostname": &resource.Property{
+			Getter: func(context.Context) (any, error) {
 				return r.Hostname, nil
 			},
 		},

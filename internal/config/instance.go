@@ -21,7 +21,7 @@ type InstancePreset struct {
 	Interfaces      []map[string]InstanceInterface `yaml:"interfaces,omitempty"`
 	Region          string                         `yaml:"region,omitempty"`
 	RootPass        string                         `yaml:"root_pass,omitempty"`
-	StackscriptData map[string]interface{}         `yaml:"stackscript_data,omitempty"`
+	StackscriptData map[string]any         `yaml:"stackscript_data,omitempty"`
 	StackscriptID   int                            `yaml:"stackscript_id,omitempty"`
 	SwapSize        int                            `yaml:"swap_size,omitempty"`
 	Tags            []string                       `yaml:"tags,omitempty"`

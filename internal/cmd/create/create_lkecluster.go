@@ -111,8 +111,8 @@ func (o *CreateLKEClusterOptions) Run(f cmdutil.Factory, cmd *cobra.Command) err
 		Region:     o.Region,
 		NodePools:  o.NodePools,
 		Tags:       o.Tags,
-		ControlPlane: &linodego.LKEClusterControlPlane{
-			HighAvailability: o.HA,
+		ControlPlane: &linodego.LKEClusterControlPlaneOptions{
+			HighAvailability: &o.HA,
 		},
 	}
 

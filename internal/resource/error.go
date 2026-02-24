@@ -20,7 +20,7 @@ func (e NotUpdateableError) Error() string {
 
 type InvalidValueError struct {
 	Name  string
-	Value interface{}
+	Value any
 }
 
 func (e InvalidValueError) Error() string {

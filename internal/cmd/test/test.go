@@ -11,7 +11,7 @@ import (
 	clientmock "github.com/0xch4z/linodectl/internal/linode/mock"
 	"github.com/0xch4z/linodectl/internal/printer"
 	"github.com/0xch4z/linodectl/internal/resource"
-	"github.com/golang/mock/gomock"
+	"go.uber.org/mock/gomock"
 	"github.com/spf13/cobra"
 )
 
