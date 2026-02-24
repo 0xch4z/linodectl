@@ -9,6 +9,7 @@ import (
 	"github.com/0xch4z/linodectl/internal/resource"
 	"github.com/0xch4z/linodectl/internal/strutil"
 	"github.com/jedib0t/go-pretty/v6/table"
+	"github.com/jedib0t/go-pretty/v6/text"
 )
 
 type Printer struct {
@@ -18,6 +19,22 @@ type Printer struct {
 func New(w io.Writer) Printer {
 	t := table.NewWriter()
 	t.SetOutputMirror(w)
+	t.SetStyle(table.Style{
+		Box: table.BoxStyle{
+			PaddingLeft:  "",
+			PaddingRight: "   ",
+		},
+		Format: table.FormatOptions{
+			Header: text.FormatUpper,
+		},
+		Options: table.Options{
+			DrawBorder:      false,
+			SeparateColumns: false,
+			SeparateFooter:  false,
+			SeparateHeader:  false,
+			SeparateRows:    false,
+		},
+	})
 	return Printer{t}
 }
 
