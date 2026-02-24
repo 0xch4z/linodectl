@@ -7,11 +7,9 @@ import (
 	"time"
 
 	"github.com/0xch4z/linodectl/internal/linode"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/linode/linodego"
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 )
 
 func CreateTempKeyPair(ctx context.Context, client linode.Client, buckets []linodego.ObjectStorageBucket) (*linodego.ObjectStorageKey, func(), error) {
@@ -41,15 +39,11 @@ func CreateTempKeyPair(ctx context.Context, client linode.Client, buckets []lino
 	return key, cleanup, nil
 }
 
-func BuildS3Conn(cluster string, key *linodego.ObjectStorageKey) *s3.S3 {
-	endpoint := fmt.Sprintf("https://%s.linodeobjects.com", cluster)
+func BuildS3Conn(cluster string, key *linodego.ObjectStorageKey) (*minio.Client, error) {
+	endpoint := fmt.Sprintf("%s.linodeobjects.com", cluster)
 
-	sess, _ := session.NewSession(&aws.Config{
-		// This region is hardcoded strictly for preflight validation purposes.
-		// The real region is in the endpoint URL.
-		Region:      aws.String("us-east-1"),
-		Endpoint:    aws.String(endpoint),
-		Credentials: credentials.NewStaticCredentials(key.AccessKey, key.SecretKey, ""),
+	return minio.New(endpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4(key.AccessKey, key.SecretKey, ""),
+		Secure: true,
 	})
-	return s3.New(sess)
 }

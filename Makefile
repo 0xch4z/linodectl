@@ -22,9 +22,9 @@ clean-docs:
 
 .PHONY: docs
 docs: clean-docs
-	go run cmd/docgen/main.go
+	go run ./docgen
 
 .PHONY: build
 build:
 	mkdir -p $(BIN_DIR)
-	go build -o $(BIN_DIR)/$(NAME) cmd/linodectl/main.go
+	go build -o $(BIN_DIR)/$(NAME) .

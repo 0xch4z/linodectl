@@ -11,10 +11,8 @@ import (
 	"github.com/0xch4z/linodectl/internal/obj"
 	"github.com/0xch4z/linodectl/internal/resource/bucket"
 	"github.com/0xch4z/linodectl/internal/resource/resourceref"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/linode/linodego"
+	"github.com/minio/minio-go/v7"
 	"github.com/spf13/cobra"
 )
 
@@ -100,13 +98,14 @@ func (o *DeleteBucketOptions) Run(f cmdutil.Factory, cmd *cobra.Command) error {
 	for _, bucket := range toDelete {
 		if o.force {
 			// ensure bucket is empty before attempting deletion
-			conn := obj.BuildS3Conn(bucket.Cluster, keypair)
+			conn, err := obj.BuildS3Conn(bucket.Cluster, keypair)
+			if err != nil {
+				return fmt.Errorf("failed to connect to object storage for bucket %q: %w", bucket.Label, err)
+			}
 
-			iter := s3manager.NewDeleteListIterator(conn, &s3.ListObjectsInput{
-				Bucket: aws.String(bucket.Label),
-			})
-			if err := s3manager.NewBatchDeleteWithClient(conn).Delete(context.TODO(), iter); err != nil {
-				return err
+			objectsCh := conn.ListObjects(ctx, bucket.Label, minio.ListObjectsOptions{Recursive: true})
+			for err := range conn.RemoveObjects(ctx, bucket.Label, objectsCh, minio.RemoveObjectsOptions{}) {
+				return fmt.Errorf("failed to delete object %s: %w", err.ObjectName, err.Err)
 			}
 		}
 
