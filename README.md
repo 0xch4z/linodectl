@@ -37,4 +37,18 @@ Use "linodectl [command] --help" for more information about a command.
 go install github.com/0xch4z/linodectl@latest
 ```
 
+### Nix
+
+```
+nix profile install github:0xch4z/linodectl
+```
+
+Or add to your flake inputs:
+
+```nix
+inputs.linodectl.url = "github:0xch4z/linodectl";
+```
+
+Then add `inputs.linodectl.packages.${system}.default` to `home.packages`.
+
 See documentation [here](./docs/linodectl.md)
